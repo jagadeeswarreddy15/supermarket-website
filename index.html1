@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J Supermarket</title>
+    <style>
+        :root {
+            --primary-color: #1b5e20;
+            --secondary-color: #2e7d32;
+            --accent-color: #ff9800;
+            --bg-color: #f4f6f8;
+            --text-color: #333;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        header {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        .cart-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .search-container {
+            background-color: var(--primary-color);
+            padding: 20px;
+            text-align: center;
+        }
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        .search-bar button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        h2.section-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 22px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+        }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-3px);
+        }
+        .product-img-box {
+            height: 140px;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 10px;
+        }
+        .product-img-box img {
+            max-height: 120px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #e8f5e9;
+            color: var(--primary-color);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .product-details {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .product-brand {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        .product-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .add-to-cart-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .add-to-cart-btn:hover {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <div class="logo-icon">J</div>
+                <span>SUPERMARKET</span>
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="filterCategory('All')">Home</a></li>
+                <li><a>Login</a></li>
+                <li><a class="cart-btn" id="cart-indicator">🛒 Cart (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search products..." onkeyup="searchProducts()">
+            <button onclick="searchProducts()">🔍</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="categories-grid" id="categories-container"></div>
+
+        <h2 class="section-title" id="product-section-title">All Products (50 Items)</h2>
+        <div class="products-grid" id="products-container"></div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Rice", category: "Grains", brand: "India Gate", price: 650, qty: 10, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Rice" },
+            { id: 2, name: "Wheat Flour", category: "Grains", brand: "Aashirvaad", price: 280, qty: 8, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Wheat+Flour" },
+            { id: 3, name: "Sugar", category: "Grocery", brand: "Madhur", price: 48, qty: 5, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Sugar" },
+            { id: 4, name: "Salt", category: "Grocery", brand: "Tata", price: 28, qty: 5, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Salt" },
+            { id: 5, name: "Toor Dal", category: "Pulses", brand: "Tata Sampann", price: 180, qty: 3, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Toor+Dal" },
+            { id: 6, name: "Moong Dal", category: "Pulses", brand: "Fortune", price: 150, qty: 3, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Moong+Dal" },
+            { id: 7, name: "Chana Dal", category: "Pulses", brand: "Tata Sampann", price: 120, qty: 3, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Chana+Dal" },
+            { id: 8, name: "Cooking Oil", category: "Oils", brand: "Fortune", price: 145, qty: 5, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Cooking+Oil" },
+            { id: 9, name: "Tea Powder", category: "Beverages", brand: "Tata Tea", price: 250, qty: 2, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Tea+Powder" },
+            { id: 10, name: "Coffee", category: "Beverages", brand: "Bru", price: 320, qty: 2, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Coffee" },
+            { id: 11, name: "Milk", category: "Dairy", brand: "Amul", price: 32, qty: 10, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Milk" },
+            { id: 12, name: "Curd", category: "Dairy", brand: "Amul", price: 35, qty: 8, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Curd" },
+            { id: 13, name: "Butter", category: "Dairy", brand: "Amul", price: 58, qty: 5, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Butter" },
+            { id: 14, name: "Cheese", category: "Dairy", brand: "Amul", price: 120, qty: 4, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Cheese" },
+            { id: 15, name: "Bread", category: "Bakery", brand: "Britannia", price: 45, qty: 10, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Bread" },
+            { id: 16, name: "Biscuits", category: "Snacks", brand: "Parle", price: 30, qty: 15, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Biscuits" },
+            { id: 17, name: "Potato Chips", category: "Snacks", brand: "Lay's", price: 20, qty: 12, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Potato+Chips" },
+            { id: 18, name: "Noodles", category: "Instant Food", brand: "Maggi", price: 15, qty: 20, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Noodles" },
+            { id: 19, name: "Tomato Ketchup", category: "Sauces", brand: "Kissan", price: 110, qty: 5, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Tomato+Ketchup" },
+            { id: 20, name: "Jam", category: "Spreads", brand: "Kissan", price: 140, qty: 4, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Jam" },
+            { id: 21, name: "Toothpaste", category: "Personal Care", brand: "Colgate", price: 95, qty: 8, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Toothpaste" },
+            { id: 22, name: "Toothbrush", category: "Personal Care", brand: "Oral-B", price: 60, qty: 10, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Toothbrush" },
+            { id: 23, name: "Bath Soap", category: "Personal Care", brand: "Dove", price: 55, qty: 12, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Bath+Soap" },
+            { id: 24, name: "Shampoo", category: "Personal Care", brand: "Clinic Plus", price: 120, qty: 6, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Shampoo" },
+            { id: 25, name: "Hand Wash", category: "Personal Care", brand: "Dettol", price: 110, qty: 7, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Hand+Wash" },
+            { id: 26, name: "Laundry Detergent", category: "Cleaning", brand: "Surf Excel", price: 210, qty: 5, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Laundry+Detergent" },
+            { id: 27, name: "Dishwash Liquid", category: "Cleaning", brand: "Vim", price: 120, qty: 6, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Dishwash+Liquid" },
+            { id: 28, name: "Floor Cleaner", category: "Cleaning", brand: "Lizol", price: 180, qty: 4, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Floor+Cleaner" },
+            { id: 29, name: "Tissue Paper", category: "Household", brand: "Origami", price: 90, qty: 8, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Tissue+Paper" },
+            { id: 30, name: "Mineral Water", category: "Beverages", brand: "Bisleri", price: 20, qty: 20, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Mineral+Water" },
+            { id: 31, name: "Apple", category: "Fruits", brand: "Fresh", price: 180, qty: 6, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Apple" },
+            { id: 32, name: "Banana", category: "Fruits", brand: "Fresh", price: 60, qty: 10, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Banana" },
+            { id: 33, name: "Orange", category: "Fruits", brand: "Fresh", price: 100, qty: 8, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Orange" },
+            { id: 34, name: "Tomato", category: "Vegetables", brand: "Fresh", price: 50, qty: 10, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Tomato" },
+            { id: 35, name: "Onion", category: "Vegetables", brand: "Fresh", price: 45, qty: 10, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Onion" },
+            { id: 36, name: "Green Gram", category: "Pulses", brand: "Fortune", price: 140, qty: 4, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Green+Gram" },
+            { id: 37, name: "Black Eyed Peas", category: "Pulses", brand: "Tata Sampann", price: 130, qty: 3, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Black+Eyed+Peas" },
+            { id: 38, name: "Cashews", category: "Dry Fruits", brand: "Nutraj", price: 450, qty: 2, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Cashews" },
+            { id: 39, name: "Almonds", category: "Dry Fruits", brand: "Happilo", price: 480, qty: 2, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Almonds" },
+            { id: 40, name: "Raisins", category: "Dry Fruits", brand: "Nutraj", price: 250, qty: 3, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Raisins" },
+            { id: 41, name: "Honey", category: "Grocery", brand: "Dabur", price: 220, qty: 5, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Honey" },
+            { id: 42, name: "Ghee", category: "Dairy", brand: "Amul", price: 350, qty: 4, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Ghee" },
+            { id: 43, name: "Paneer", category: "Dairy", brand: "Amul", price: 90, qty: 6, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Paneer" },
+            { id: 44, name: "Ice Cream", category: "Dairy", brand: "Kwality Wall's", price: 200, qty: 5, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Ice+Cream" },
+            { id: 45, name: "Green Tea", category: "Beverages", brand: "Lipton", price: 210, qty: 4, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Green+Tea" },
+            { id: 46, name: "Fruit Juice", category: "Beverages", brand: "Real", price: 130, qty: 8, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Fruit+Juice" },
+            { id: 47, name: "Cabbage", category: "Vegetables", brand: "Fresh", price: 35, qty: 10, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Cabbage" },
+            { id: 48, name: "Carrot", category: "Vegetables", brand: "Fresh", price: 60, qty: 8, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Carrot" },
+            { id: 49, name: "Papaya", category: "Fruits", brand: "Fresh", price: 70, qty: 5, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Papaya" },
+            { id: 50, name: "Mango", category: "Fruits", brand: "Fresh", price: 120, qty: 6, image: "https://via.placeholder.com/150/e8f5e9/1b5e20?text=Mango" }
+        ];
+
+        let cartCount = 0;
+
+        function renderCategories() {
+            const categoriesContainer = document.getElementById('categories-container');
+            const uniqueCategories = ['All', ...new Set(products.map(p => p.category))];
+            
+            categoriesContainer.innerHTML = uniqueCategories.map(cat => `
+                <div class="category-card" onclick="filterCategory('${cat}')">
+                    <div style="font-size: 32px; margin-bottom: 8px;">📦</div>
+                    <div style="font-weight: bold; font-size: 14px;">${cat}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderProducts(items) {
+            const container = document.getElementById('products-container');
+            if(items.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">No products found.</p>`;
+                return;
+            }
+            
+            container.innerHTML = items.map(p => `
+                <div class="product-card">
+                    <div class="product-img-box">
+                        <span class="product-badge">${p.category}</span>
+                        <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150/f4f6f8/333333?text=Item'">
+                    </div>
+                    <div class="product-details">
+                        <span class="product-brand">${p.brand}</span>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-footer">
+                            <span class="product-price">₹${p.price}</span>
+                            <button class="add-to-cart-btn" onclick="addToCart('${p.name}')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(category) {
+            const titleEl = document.getElementById('product-section-title');
+            if(category === 'All') {
+                titleEl.innerText = `All Products (${products.length} Items)`;
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                titleEl.innerText = `${category} (${filtered.length} Items)`;
+                renderProducts(filtered);
+            }
+        }
+
+        function searchProducts() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.brand.toLowerCase().includes(query) || 
+                p.category.toLowerCase().includes(query)
+            );
+            document.getElementById('product-section-title').innerText = `Search Results (${filtered.length} Items)`;
+            renderProducts(filtered);
+        }
+
+        function addToCart(itemName) {
+            cartCount++;
+            document.getElementById('cart-count').innerText = cartCount;
+            alert(`${itemName} cart లోకి జోడించబడింది!`);
+        }
+
+        window.onload = function() {
+            renderCategories();
+            renderProducts(products);
+        };
+    </script>
+</body>
+</html>
