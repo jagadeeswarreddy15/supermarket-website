@@ -1,0 +1,14 @@
+<header>
+  <div class="navbar">
+    <div class="logo"><div class="logo-mark">జ</div> జ సూపర్ మార్కెట్</div>
+    <div class="search">
+      <input id="searchInput" type="text" placeholder="ప్రొడక్ట్స్ వెతకండి..." oninput="searchProducts()">
+      <button onclick="searchProducts()">🔍</button>
+    </div>
+    <nav>
+      <button onclick="goHome()">🏠 హోమ్</button>
+      <button onclick="openLogin()">👤 లాగిన్</button>
+      <button onclick="showCart()">🛒 కార్ట్ (<span id="cartCount">0</span>)</button>
+    </nav>
+  </div>
+</header>
